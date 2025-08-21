@@ -1,0 +1,45 @@
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
+
+          routes:
+            - id: skill-service
+              uri: lb://skill-service
+              predicates:
+                - Path=/api/v1/tags/**
+              filters:
+                - StripPrefix=2
+
+            - id: skill-service
+              uri: lb://skill-service
+              predicates:
+                - Path=/api/v1/clusters/**
+              filters:
+                - StripPrefix=2
+
+            - id: skill-service
+              uri: lb://skill-service
+              predicates:
+                - Path=/api/v1/atoms/**
+              filters:
+                - StripPrefix=2
+
+            - id: skill-service
+              uri: lb://skill-service
+              predicates:
+                - Path=/api/v1/capsules/**
+              filters:
+                - StripPrefix=2
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${SPRING_EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
+  instance:
+    prefer-ip-address: true
