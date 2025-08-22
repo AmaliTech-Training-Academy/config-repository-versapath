@@ -1,38 +1,50 @@
 server:
-  port: ${SERVER_PORT}
+  port: ${SEVER_PORT}
+
 spring:
+  application:
+    name: api-gateway
   cloud:
     gateway:
-      routes:
-        - id: skill-service
-          uri: lb://skill-service
-          predicates:
-            - Path=/api/v1/tags/**
-        - id: skill-service
-          uri: lb://skill-service
-          predicates:
-            - Path=/api/v1/clusters/**
-        - id: skill-service
-          uri: lb://skill-service
-          predicates:
-            - Path=/api/v1/atoms/**
-        - id: skill-service
-          uri: lb://skill-service
-          predicates:
-            - Path=/api/v1/capsules/**
-       
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,metrics,env
-  endpoint:
-    health:
-      show-details: always
-      
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+              lower-case-service-id: true
+
+          routes:
+            - id: skill-service
+              uri: lb://skill-service
+              predicates:
+                - Path=/api/v1/tags/**
+              filters:
+                - StripPrefix=2
+
+            - id: skill-service
+              uri: lb://skill-service
+              predicates:
+                - Path=/api/v1/clusters/**
+              filters:
+                - StripPrefix=2
+
+            - id: skill-service
+              uri: lb://skill-service
+              predicates:
+                - Path=/api/v1/atoms/**
+              filters:
+                - StripPrefix=2
+
+            - id: skill-service
+              uri: lb://skill-service
+              predicates:
+                - Path=/api/v1/capsules/**
+              filters:
+                - StripPrefix=2
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL}
+
 eureka:
   client:
-    serviceUrl:
-      defaultZone: ${SPRING_EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
-  instance:
-    prefer-ip-address: true
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_URL}
