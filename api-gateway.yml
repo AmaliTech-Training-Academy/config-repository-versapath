@@ -1,49 +1,38 @@
 server:
-  port: ${SEVER_PORT}
-
+  port: ${SERVER_PORT}
 spring:
-  application:
-    name: api-gateway
   cloud:
     gateway:
-      server:
-        webflux:
-          discovery:
-            locator:
-              enabled: true
-              lower-case-service-id: true
-
-          routes:
-            - id: skill-service
-              uri: lb://skill-service
-              predicates:
-                - Path=/api/v1/tags/**
-              filters:
-                - StripPrefix=2
-
-            - id: skill-service
-              uri: lb://skill-service
-              predicates:
-                - Path=/api/v1/clusters/**
-              filters:
-                - StripPrefix=2
-
-            - id: skill-service
-              uri: lb://skill-service
-              predicates:
-                - Path=/api/v1/atoms/**
-              filters:
-                - StripPrefix=2
-
-            - id: skill-service
-              uri: lb://skill-service
-              predicates:
-                - Path=/api/v1/capsules/**
-              filters:
-                - StripPrefix=2
-
-
+      routes:
+        - id: skill-service
+          uri: lb://skill-service
+          predicates:
+            - Path=/api/v1/tags/**
+        - id: skill-service
+          uri: lb://skill-service
+          predicates:
+            - Path=/api/v1/clusters/**
+        - id: skill-service
+          uri: lb://skill-service
+          predicates:
+            - Path=/api/v1/atoms/**
+        - id: skill-service
+          uri: lb://skill-service
+          predicates:
+            - Path=/api/v1/capsules/**
+       
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,env
+  endpoint:
+    health:
+      show-details: always
+      
 eureka:
   client:
-    service-url:
-      defaultZone: ${EUREKA_CLIENT_URL}
+    serviceUrl:
+      defaultZone: ${SPRING_EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
+  instance:
+    prefer-ip-address: true
