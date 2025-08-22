@@ -1,4 +1,9 @@
+server:
+  port: ${SEVER_PORT}
+
 spring:
+  application:
+    name: api-gateway
   cloud:
     gateway:
       server:
@@ -36,10 +41,10 @@ spring:
                 - Path=/api/v1/capsules/**
               filters:
                 - StripPrefix=2
+  config:
+    import: optional:configserver:${CONFIG_SERVER_URL}
 
 eureka:
   client:
     service-url:
-      defaultZone: ${SPRING_EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
-  instance:
-    prefer-ip-address: true
+      defaultZone: ${EUREKA_CLIENT_URL}
