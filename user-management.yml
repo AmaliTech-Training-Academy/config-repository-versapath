@@ -1,0 +1,52 @@
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: ${DB_DRIVER_CLASS_NAME}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  security:
+    jwt:
+      secret: ${JWT_SECRET}
+      expirationMs: ${JWT_EXPIRATION_MS:86400000}
+
+  mail:
+    host: ${SPRING_MAIL_HOST:smtp.gmail.com}
+    port: ${SPRING_MAIL_PORT:587}
+    username: ${SPRING_MAIL_USERNAME}
+    password: ${SPRING_MAIL_PASSWORD}
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+          ssl.trust: smtp.gmail.com
+        debug: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${SPRING_EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
+  instance:
+    prefer-ip-address: true
+
+app:
+  base-url: ${APP_BASE_URL:http://localhost:4200}
+  notification:
+    email:
+      from: ${APP_NOTIFICATION_EMAIL_FROM}
+      subject:
+        prefix: ${APP_NOTIFICATION_EMAIL_SUBJECT_PREFIX}
+  registration:
+    token:
+      secret: ${APP_REGISTRATION_TOKEN_SECRET}
+      expiration-ms: ${APP_REGISTRATION_TOKEN_EXPIRATION_MS:86400000}
