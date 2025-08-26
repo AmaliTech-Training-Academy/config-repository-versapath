@@ -48,6 +48,13 @@ spring:
                 - Path=/api/v1/growth-tracks/**
               filters:
                 - StripPrefix=2
+                
+            - id: skill-service
+              uri: lb://skill-service
+              predicates:
+                - Path=/api/v1/talent-routes/**
+              filters:
+                - StripPrefix=2
   config:
     import: optional:configserver:${CONFIG_SERVER_URL}
 
