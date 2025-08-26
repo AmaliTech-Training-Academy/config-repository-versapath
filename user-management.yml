@@ -19,8 +19,8 @@ spring:
       expirationMs: ${JWT_EXPIRATION_MS:86400000}
 
   mail:
-    host: ${SPRING_MAIL_HOST:smtp.gmail.com}
-    port: ${SPRING_MAIL_PORT:587}
+    host: ${SPRING_MAIL_HOST:sandbox.smtp.mailtrap.io}
+    port: ${SPRING_MAIL_PORT:2525}
     username: ${SPRING_MAIL_USERNAME}
     password: ${SPRING_MAIL_PASSWORD}
     protocol: smtp
@@ -29,7 +29,9 @@ spring:
         smtp:
           auth: true
           starttls.enable: true
-          ssl.trust: smtp.gmail.com
+          connectiontimeout: 5000
+          timeout: 3000
+          writetimeout: 5000
         debug: true
 
 eureka:
