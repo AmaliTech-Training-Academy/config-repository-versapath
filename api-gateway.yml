@@ -16,7 +16,6 @@ spring:
         corsConfigurations:
           '[/**]':
             allowedOrigins:
-              - ${APP_BASE_URL}
               - ${REACT_DEV_SERVER}
                             
             allowedMethods:
