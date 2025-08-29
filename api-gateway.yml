@@ -12,8 +12,25 @@ spring:
             locator:
               enabled: true
               lower-case-service-id: true
-
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - ${APP_BASE_URL}
+              - ${REACT_DEV_SERVER}
+                            
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+            allowedHeaders: '*'
+            allowCredentials: true
+          
           routes:
+          # skill-taxonomy service
             - id: skill-service
               uri: lb://skill-service
               predicates:
@@ -55,6 +72,27 @@ spring:
                 - Path=/api/v1/talent-routes/**
               filters:
                 - StripPrefix=2
+                
+            # user-management service
+            - id: user-management-authentication
+              uri: lb://user-management
+              predicates:
+                - path=/api/v1/auth/**
+
+            - id: user-management-registration
+              uri: lb://user-management
+              predicates:
+                - path=/api/v1/register/**
+            
+            - id: user-management-roles
+              uri: lb://user-management
+              predicates:
+                - path=/api/v1/roles/**
+
+            - id: user-management-profiles
+              uri: lb://user-management
+              predicates:
+                - path=/api/v1/users/**
   config:
     import: optional:configserver:${CONFIG_SERVER_URL}
 
@@ -62,3 +100,5 @@ eureka:
   client:
     service-url:
       defaultZone: ${EUREKA_CLIENT_URL}
+  instance:
+    prefer-ip-address: true
