@@ -18,6 +18,19 @@ spring:
       secret: ${JWT_SECRET}
       expirationMs: ${JWT_EXPIRATION_MS:86400000}
 
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST:localhost}
+      port: ${SPRING_REDIS_PORT:6379}
+      password: ${SPRING_REDIS_PASSWORD:}
+      timeout: ${SPRING_REDIS_TIMEOUT:2000ms}
+      lettuce:
+        pool:
+          max-active: 8
+          max-wait: -1ms
+          max-idle: 8
+          min-idle: 0
+
   mail:
     host: ${SPRING_MAIL_HOST:sandbox.smtp.mailtrap.io}
     port: ${SPRING_MAIL_PORT:2525}
