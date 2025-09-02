@@ -17,7 +17,6 @@ spring:
           '[/**]':
             allowedOrigins:
               - ${REACT_DEV_SERVER}
-              - http://localhost:3000
                             
             allowedMethods:
               - GET
