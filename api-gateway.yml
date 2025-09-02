@@ -72,6 +72,13 @@ spring:
           filters:
             - StripPrefix=2
             
+        - id: skill-service
+          uri: lb://skill-service
+          predicates:
+            - Path=/api/v1/uploads/**
+          filters:
+            - StripPrefix=2
+            
         # user-management service
         - id: user-management-authentication
           uri: lb://user-management
