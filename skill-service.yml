@@ -30,8 +30,7 @@ eureka:
     service-url:
       defaultZone: ${EUREKA_CLIENT_URL}
   instance:
-      prefer-ip-address: true                   # registers the service using IP
-      hostname: https://skill-service-versapath.onrender.com
+      prefer-ip-address: true  
 
 management:
   endpoints:

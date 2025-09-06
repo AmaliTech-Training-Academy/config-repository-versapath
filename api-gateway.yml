@@ -12,21 +12,21 @@ spring:
             locator:
               enabled: true
               #lower-case-service-id: true
-      # globalcors:
-      #   corsConfigurations:
-      #     '[/**]':
-      #       allowedOrigins:
-      #         - ${REACT_DEV_SERVER}
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOriginPatterns:
+              - "*" 
                             
-      #       allowedMethods:
-      #         - GET
-      #         - POST
-      #         - PUT
-      #         - DELETE
-      #         - PATCH
-      #         - OPTIONS
-      #       allowedHeaders: '*'
-      #       allowCredentials: true
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+            allowedHeaders: '*'
+            allowCredentials: true
           
       routes:
       # skill-taxonomy service
@@ -72,6 +72,13 @@ spring:
           filters:
             - StripPrefix=2
             
+        - id: skill-service
+          uri: lb://skill-service
+          predicates:
+            - Path=/api/v1/uploads/**
+          filters:
+            - StripPrefix=2
+            
         # user-management service
         - id: user-management-authentication
           uri: lb://user-management
@@ -98,6 +105,6 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_CLIENT_URL}
+      defaultZone: ${EUREKA_CLIENT_URL:http://versapath-service-discovery:8761/eureka}
   instance:
     prefer-ip-address: true
