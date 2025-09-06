@@ -99,6 +99,14 @@ spring:
           uri: lb://user-management
           predicates:
             - Path=/api/v1/users/**
+
+      # learning management system service    
+        - id: lms-service
+            uri: lb://lms-service
+            predicates:
+              - Path=/api/v1/moodle/**
+            filters:
+              - StripPrefix=2  
   config:
     import: optional:configserver:${CONFIG_SERVER_URL}
 
