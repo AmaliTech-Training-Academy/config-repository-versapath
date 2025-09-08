@@ -30,8 +30,6 @@ spring:
     virtual-host: ${RABBIT_VHOST}
     ssl:
       enabled: true  
-  main:
-    lazy-initialization: true
 
 eureka:
   client:
