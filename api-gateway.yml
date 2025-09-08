@@ -12,21 +12,6 @@ spring:
             locator:
               enabled: true
               #lower-case-service-id: true
-      globalcors:
-        corsConfigurations:
-          '[/**]':
-            allowedOriginPatterns:
-              - "*" 
-                            
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - PATCH
-              - OPTIONS
-            allowedHeaders: '*'
-            allowCredentials: true
           
       routes:
       # skill-taxonomy service
