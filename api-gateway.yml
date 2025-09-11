@@ -1,118 +1,65 @@
 server:
   port: ${SERVER_PORT}
-
 spring:
   application:
     name: api-gateway
   cloud:
     gateway:
-      server:
-        webflux:
-          discovery:
-            locator:
-              enabled: true
-              #lower-case-service-id: true
+      discovery:
+        locator:
+          enabled: false  # Disable since we're defining explicit routes
       globalcors:
         corsConfigurations:
           '[/**]':
-            allowedOriginPatterns:
-              - "*" 
-                            
-            allowedMethods:
-              - GET
-              - POST
-              - PUT
-              - DELETE
-              - PATCH
-              - OPTIONS
+            allowedOriginPatterns: ["*"]
+            allowedMethods: [GET, POST, PUT, DELETE, PATCH, OPTIONS]
             allowedHeaders: '*'
             allowCredentials: true
-          
       routes:
-      # skill-taxonomy service
-        - id: skill-service
+        # Primary routes using Eureka
+        - id: skill-service-primary
           uri: lb://skill-service
           predicates:
-            - Path=/api/v1/tags/**
+            - Path=/api/v1/tags/**,/api/v1/clusters/**,/api/v1/atoms/**,/api/v1/capsules/**,/api/v1/growth-tracks/**,/api/v1/talent-routes/**,/api/v1/uploads/**
           filters:
             - StripPrefix=2
-
-        - id: skill-service
-          uri: lb://skill-service
-          predicates:
-            - Path=/api/v1/clusters/**
-          filters:
-            - StripPrefix=2
-
-        - id: skill-service
-          uri: lb://skill-service
-          predicates:
-            - Path=/api/v1/atoms/**
-          filters:
-            - StripPrefix=2
-
-        - id: skill-service
-          uri: lb://skill-service
-          predicates:
-            - Path=/api/v1/capsules/**
-          filters:
-            - StripPrefix=2
-            
-        - id: skill-service
-          uri: lb://skill-service
-          predicates:
-            - Path=/api/v1/growth-tracks/**
-          filters:
-            - StripPrefix=2
-            
-        - id: skill-service
-          uri: lb://skill-service
-          predicates:
-            - Path=/api/v1/talent-routes/**
-          filters:
-            - StripPrefix=2
-            
-        - id: skill-service
-          uri: lb://skill-service
-          predicates:
-            - Path=/api/v1/uploads/**
-          filters:
-            - StripPrefix=2
-            
-        # user-management service
-        - id: user-management-authentication
-          uri: lb://user-management
-          predicates:
-            - Path=/api/v1/auth/**
-
-        - id: user-management-registration
-          uri: lb://user-management
-          predicates:
-            - Path=/api/v1/register/**
         
-        - id: user-management-roles
+        - id: user-management-primary
           uri: lb://user-management
           predicates:
-            - Path=/api/v1/roles/**
-
-        - id: user-management-profiles
-          uri: lb://user-management
-          predicates:
-            - Path=/api/v1/users/**
-
-      # learning management system service    
-        - id: lms-service
+            - Path=/api/v1/auth/**,/api/v1/register/**,/api/v1/roles/**,/api/v1/users/**
+        
+        - id: lms-service-primary
           uri: lb://lms-service
           predicates:
             - Path=/api/v1/moodle/**
           filters:
-            - StripPrefix=2  
-  config:
-    import: optional:configserver:${CONFIG_SERVER_URL}
+            - StripPrefix=2
+
+        # Fallback routes using Service Connect DNS
+        # These will only be used if Eureka routes fail
+        - id: skill-service-fallback
+          uri: http://skill-service:8100
+          predicates:
+            - Path=/api/v1/tags/**,/api/v1/clusters/**,/api/v1/atoms/**,/api/v1/capsules/**,/api/v1/growth-tracks/**,/api/v1/talent-routes/**,/api/v1/uploads/**
+          filters:
+            - StripPrefix=2
+        
+        - id: user-management-fallback
+          uri: http://user-management:8090
+          predicates:
+            - Path=/api/v1/auth/**,/api/v1/register/**,/api/v1/roles/**,/api/v1/users/**
+        
+        - id: lms-service-fallback
+          uri: http://lms-service:8180
+          predicates:
+            - Path=/api/v1/moodle/**
+          filters:
+            - StripPrefix=2
 
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_CLIENT_URL:http://service-discovery:8761/eureka}
+      defaultZone: ${EUREKA_CLIENT_URL}
   instance:
     prefer-ip-address: true
