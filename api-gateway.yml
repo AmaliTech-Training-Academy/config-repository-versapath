@@ -30,8 +30,8 @@ spring:
           
       routes:
       # skill-taxonomy service
-        - id: skill-servicennnnn
-          uri: lb://skill-servifffce
+        - id: skill-service
+          uri: lb://skill-service
           predicates:
             - Path=/api/v1/tags/**
           filters:
@@ -113,6 +113,6 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_CLIENT_URL:http://versapath-service-discovery:8761/eureka}
+      defaultZone: ${EUREKA_CLIENT_URL:http://service-discovery:8761/eureka}
   instance:
     prefer-ip-address: true
