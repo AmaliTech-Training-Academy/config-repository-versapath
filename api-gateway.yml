@@ -30,8 +30,8 @@ spring:
           
       routes:
       # skill-taxonomy service
-        - id: skill-service
-          uri: lb://skill-service
+        - id: skill-servicennnnn
+          uri: lb://skill-servifffce
           predicates:
             - Path=/api/v1/tags/**
           filters:
