@@ -2,7 +2,7 @@ spring:
   application: 
     name: roadmap-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/roadmap_service_db
+    url: ${DB_URL}
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: ${DB_DRIVER_CLASS_NAME}
