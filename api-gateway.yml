@@ -16,46 +16,46 @@ spring:
             allowedHeaders: '*'
             allowCredentials: true
       routes:
-        # Primary routes using Eureka
-        # - id: skill-service-primary
-        #   uri: lb://skill-service
-        #   predicates:
-        #     - Path=/api/v1/tags/**,/api/v1/clusters/**,/api/v1/atoms/**,/api/v1/capsules/**,/api/v1/growth-tracks/**,/api/v1/talent-routes/**,/api/v1/uploads/**
-        #   filters:
-        #     - StripPrefix=2
-        
-        # - id: user-management-primary
-        #   uri: lb://user-management
-        #   predicates:
-        #     - Path=/api/v1/auth/**,/api/v1/register/**,/api/v1/roles/**,/api/v1/users/**
-        
-        # - id: lms-service-primary
-        #   uri: lb://lms-service
-        #   predicates:
-        #     - Path=/api/v1/moodle/**
-        #   filters:
-        #     - StripPrefix=2
-
-        # Fallback routes using Service Connect DNS
-        # These will only be used if Eureka routes fail
-        - id: skill-service-fallback
-          uri: http://skill-service:8100
+        Primary routes using Eureka
+        - id: skill-service-primary
+          uri: lb://skill-service
           predicates:
             - Path=/api/v1/tags/**,/api/v1/clusters/**,/api/v1/atoms/**,/api/v1/capsules/**,/api/v1/growth-tracks/**,/api/v1/talent-routes/**,/api/v1/uploads/**
           filters:
             - StripPrefix=2
         
-        - id: user-management-fallback
-          uri: http://user-management:8090
+        - id: user-management-primary
+          uri: lb://user-management
           predicates:
             - Path=/api/v1/auth/**,/api/v1/register/**,/api/v1/roles/**,/api/v1/users/**
         
-        - id: lms-service-fallback
-          uri: http://lms-service:8180
+        - id: lms-service-primary
+          uri: lb://lms-service
           predicates:
             - Path=/api/v1/moodle/**
           filters:
             - StripPrefix=2
+
+        # Fallback routes using Service Connect DNS
+        # These will only be used if Eureka routes fail
+        # - id: skill-service-fallback
+        #   uri: http://skill-service:8100
+        #   predicates:
+        #     - Path=/api/v1/tags/**,/api/v1/clusters/**,/api/v1/atoms/**,/api/v1/capsules/**,/api/v1/growth-tracks/**,/api/v1/talent-routes/**,/api/v1/uploads/**
+        #   filters:
+        #     - StripPrefix=2
+        
+        # - id: user-management-fallback
+        #   uri: http://user-management:8090
+        #   predicates:
+        #     - Path=/api/v1/auth/**,/api/v1/register/**,/api/v1/roles/**,/api/v1/users/**
+        
+        # - id: lms-service-fallback
+        #   uri: http://lms-service:8180
+        #   predicates:
+        #     - Path=/api/v1/moodle/**
+        #   filters:
+        #     - StripPrefix=2
 
 eureka:
   # client:
