@@ -16,8 +16,8 @@ spring:
             allowedHeaders: '*'
             allowCredentials: true
       routes: 
-        Fallback routes using Service Connect DNS
-        These will only be used if Eureka routes fail
+        # Fallback routes using Service Connect DNS
+        # These will only be used if Eureka routes fail
         - id: skill-service-fallback
           uri: http://skill-service:8100
           predicates:
@@ -38,10 +38,10 @@ spring:
             - StripPrefix=2
 
 eureka:
-  # client:
+  client:
   #   service-url:
   #     defaultZone: ${EUREKA_CLIENT_URL}
   # instance:
   #   prefer-ip-address: true
-  register-with-eureka: true
-  fetch-registry: false  # Don't use Eureka for routing
+    register-with-eureka: true
+    fetch-registry: false  # Don't use Eureka for routing
