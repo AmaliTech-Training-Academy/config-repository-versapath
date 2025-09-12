@@ -38,7 +38,7 @@ spring:
             - StripPrefix=2
 
 eureka:
-  client:
+  # client:
   #   service-url:
   #     defaultZone: ${EUREKA_CLIENT_URL}
   # instance:
