@@ -22,8 +22,6 @@ spring:
           uri: http://skill-service:8100
           predicates:
             - Path=/api/v1/tags/**,/api/v1/clusters/**,/api/v1/atoms/**,/api/v1/capsules/**,/api/v1/growth-tracks/**,/api/v1/talent-routes/**,/api/v1/uploads/**
-          filters:
-            - StripPrefix=2
         
         - id: user-management-fallback
           uri: http://user-management:8090
@@ -34,28 +32,12 @@ spring:
           uri: http://lms-service:8180
           predicates:
             - Path=/api/v1/moodle/**
-          filters:
-            - StripPrefix=2
 
         - id: roadmap-service-fallback
           uri: http://roadmap-service:8110
           predicates:
             - Path=/api/v1/roadmap/**,/api/v1/learner/**
-          filters:
-            - StripPrefix=2
-
-        - id: lms-service-fallback
-          uri: http://lms-service:8180
-          predicates:
-            - Path=/api/v1/moodle/**
-          filters:
-            - StripPrefix=2
 
 eureka:
-  # client:
-  #   service-url:
-  #     defaultZone: ${EUREKA_CLIENT_URL}
-  # instance:
-  #   prefer-ip-address: true
     register-with-eureka: true
     fetch-registry: false  # Don't use Eureka for routing
