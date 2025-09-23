@@ -37,6 +37,20 @@ spring:
           filters:
             - StripPrefix=2
 
+        - id: roadmap-service-fallback
+          uri: http://roadmap-service:8110
+          predicates:
+            - Path=/api/v1/roadmap/**,/api/v1/learner/**
+          filters:
+            - StripPrefix=2
+
+        - id: lms-service-fallback
+          uri: http://lms-service:8180
+          predicates:
+            - Path=/api/v1/moodle/**
+          filters:
+            - StripPrefix=2
+
 eureka:
   # client:
   #   service-url:
