@@ -42,6 +42,18 @@ spring:
           predicates:
             - Path=/api/v1/roadmap/**,/api/v1/learner/**
 
+        - id: assessment-service
+          uri: http://assessment-service:8120
+          predicates:
+            - Path=/api/v1/assessment/**
+          filters:
+            - StripPrefex=2
+
+        - id: credential-service
+          uri: http://credential-service:8140
+          predicates:
+            - Path=/api/v1/badges/**
+
 eureka:
     register-with-eureka: true  # Consistent with not using Eureka for routing
     fetch-registry: false        # Don't use Eureka for routing
