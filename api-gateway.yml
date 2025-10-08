@@ -47,7 +47,7 @@ spring:
           predicates:
             - Path=/api/v1/assessment/**
           filters:
-            - StripPrefex=2
+            - StripPrefix=2
 
         - id: credential-service
           uri: http://credential-service:8140
